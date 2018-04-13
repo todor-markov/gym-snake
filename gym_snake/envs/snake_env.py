@@ -5,8 +5,8 @@ from gym.utils import seeding
 from gym.envs.classic_control import rendering
 from collections import deque
 
-GRID_W = 40
-GRID_H = 40
+GRID_W = 32
+GRID_H = 42
 GRID_CELL_H = 5
 GRID_CELL_W = 5
 
@@ -81,7 +81,7 @@ class SnakeEnv(gym.Env):
             if snake_cell in self.fruit:
                 self.fruit.remove(snake_cell)
 
-    def _get_state(self):
+    def _get_observation(self):
         state = np.zeros(
             (GRID_H * GRID_CELL_H, GRID_W * GRID_CELL_W, 3),
             dtype=np.uint8)
@@ -145,8 +145,8 @@ class SnakeEnv(gym.Env):
             done = False
             reward = NORM_REWARD
 
-        self.state = self._get_state()
-        return self.state, reward, done, {}
+        self.observed_state = self._get_observation()
+        return self.observed_state, reward, done, {}
 
     def reset(self):
         self.fruit = set((
@@ -154,14 +154,14 @@ class SnakeEnv(gym.Env):
             np.random.randint(GRID_W)) for _ in range(START_NUM_FRUIT))
 
         self._generate_snake()
-        self.state = self._get_state()
-        return self.state
+        self.observed_state = self._get_observation()
+        return self.observed_state
 
     def render(self, mode='human', close=False):
         if self.viewer is None:
             self.viewer = rendering.SimpleImageViewer()
 
-        self.viewer.imshow(self.state)
+        self.viewer.imshow(self.observed_state)
         return self.viewer.isopen
 
     def close(self):

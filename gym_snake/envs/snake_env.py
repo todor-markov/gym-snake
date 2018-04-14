@@ -5,15 +5,15 @@ from gym.utils import seeding
 from gym.envs.classic_control import rendering
 from collections import deque
 
-GRID_W = 32
-GRID_H = 42
-GRID_CELL_H = 5
-GRID_CELL_W = 5
+GRID_W = 80
+GRID_H = 105
+GRID_CELL_W = 2
+GRID_CELL_H = 2
 
 SNAKE_GEN_W_RANGE = (2, GRID_W - 2)
 SNAKE_GEN_H_RANGE = (2, GRID_H - 2)
 
-START_NUM_FRUIT = 20
+START_NUM_FRUIT = 200
 FRUIT_SPAWN_PROB = 0.1
 
 DYING_REWARD = -100
@@ -66,8 +66,8 @@ class SnakeEnv(gym.Env):
 
     def _generate_snake(self):
         initial_cell = (
-            np.random.randint(SNAKE_GEN_W_RANGE[0], SNAKE_GEN_W_RANGE[1]),
-            np.random.randint(SNAKE_GEN_H_RANGE[0], SNAKE_GEN_H_RANGE[1]))
+            np.random.randint(SNAKE_GEN_H_RANGE[0], SNAKE_GEN_H_RANGE[1]),
+            np.random.randint(SNAKE_GEN_W_RANGE[0], SNAKE_GEN_W_RANGE[1]))
 
         snake_direction = np.random.randint(4)
         snake_body = [
